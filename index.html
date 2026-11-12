@@ -38,6 +38,7 @@
         <div id="fbStatus" class="brand-sub">Códigos de acesso</div>
       </div>
       <div class="top-actions">
+        <button id="clearUsedBtn" class="btn ghost" type="button" hidden>Limpar usados</button>
         <button id="logoutBtn" class="btn ghost" type="button">Sair</button>
       </div>
     </header>
@@ -64,6 +65,10 @@
         </button>
         <button class="fab-action kill" data-action="kill" type="button">
           <span class="fab-label">Matar</span>
+          <span class="fab-icon">×</span>
+        </button>
+        <button class="fab-action delete" data-action="delete" type="button">
+          <span class="fab-label">Excluir</span>
           <span class="fab-icon">×</span>
         </button>
         <button class="fab-action edit" data-action="edit" type="button">

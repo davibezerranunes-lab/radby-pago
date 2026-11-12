@@ -257,6 +257,7 @@ body { overflow-x: hidden; }
 .fab-root.open .fab-action:nth-child(1) { transition-delay: 0.04s; }
 .fab-root.open .fab-action:nth-child(2) { transition-delay: 0.1s; }
 .fab-root.open .fab-action:nth-child(3) { transition-delay: 0.16s; }
+.fab-root.open .fab-action:nth-child(4) { transition-delay: 0.22s; }
 
 .fab-icon {
   width: 38px;
@@ -271,6 +272,7 @@ body { overflow-x: hidden; }
 .fab-action.add .fab-icon { background: linear-gradient(135deg, var(--cyan), #67e8f9); }
 .fab-action.kill .fab-icon { background: linear-gradient(135deg, var(--pink), #f9a8d4); }
 .fab-action.edit .fab-icon { background: linear-gradient(135deg, var(--violet), #c4b5fd); }
+.fab-action.delete .fab-icon { background: linear-gradient(135deg, var(--bad), #fca5a5); }
 .fab-action:hover { filter: brightness(1.06); }
 
 .fab-main {

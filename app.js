@@ -54,6 +54,7 @@ const setupBanner = $("setupBanner");
 const codeList = $("codeList");
 const empty = $("empty");
 const fabRoot = $("fabRoot");
+const clearUsedBtn = $("clearUsedBtn");
 const modal = $("modal");
 const modalTitle = $("modalTitle");
 const modalText = $("modalText");
@@ -138,6 +139,8 @@ $("logoutBtn").addEventListener("click", async () => {
   if (auth) await signOut(auth);
 });
 
+clearUsedBtn.addEventListener("click", clearUsed);
+
 if (configured) {
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -190,6 +193,7 @@ function render() {
   $("statTotal").textContent = codes.length;
   $("statActive").textContent = codes.filter((item) => !item.used).length;
   $("statUsed").textContent = codes.filter((item) => item.used).length;
+  clearUsedBtn.hidden = codes.filter((item) => item.used).length === 0;
 
   for (const item of codes) {
     const card = document.createElement("div");
@@ -222,6 +226,7 @@ document.querySelectorAll(".fab-action").forEach((button) => {
     if (action === "add") addCode();
     if (action === "kill") killCode();
     if (action === "edit") editCode();
+    if (action === "delete") deleteCode();
   });
 });
 
@@ -284,6 +289,52 @@ async function killCode() {
     toast("Código morto.");
   } catch (error) {
     toast("Erro ao matar: " + error.message);
+  }
+}
+
+async function deleteCode() {
+  if (!selectedId) {
+    toast("Selecione um código na lista primeiro.");
+    return;
+  }
+  const confirmed = await openModal({
+    title: "Excluir código",
+    text: `Apagar o código ${selectedId} da lista? Isso não pode ser desfeito.`,
+    okLabel: "Excluir"
+  });
+  if (!confirmed) return;
+  try {
+    await deleteDoc(doc(db, "codes", selectedId));
+    selectedId = null;
+    toast("Código excluído.");
+  } catch (error) {
+    toast("Erro ao excluir: " + error.message);
+  }
+}
+
+async function clearUsed() {
+  const used = codes.filter((item) => item.used);
+  if (!used.length) {
+    toast("Nenhum código usado.");
+    return;
+  }
+  const confirmed = await openModal({
+    title: "Limpar usados",
+    text: `Apagar ${used.length} código(s) já usado(s)? Isso não pode ser desfeito.`,
+    okLabel: "Apagar"
+  });
+  if (!confirmed) return;
+  try {
+    for (let i = 0; i < used.length; i += 500) {
+      const batch = writeBatch(db);
+      used.slice(i, i + 500).forEach((item) =>
+        batch.delete(doc(db, "codes", item.id)));
+      await batch.commit();
+    }
+    selectedId = null;
+    toast("Códigos usados apagados.");
+  } catch (error) {
+    toast("Erro ao limpar: " + error.message);
   }
 }
 
