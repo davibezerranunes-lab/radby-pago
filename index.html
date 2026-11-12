@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0b14" />
+  <title>Radby Sonds — Códigos</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="glow glow-a"></div>
+  <div class="glow glow-b"></div>
+  <div class="glow glow-c"></div>
+
+  <!-- LOGIN -->
+  <section id="loginView" class="login-wrap">
+    <form id="loginForm" class="card login-card" autocomplete="off">
+      <div class="brand">RADBY SONDS</div>
+      <div class="brand-sub">Painel de códigos</div>
+      <label class="field">
+        <span>Usuário</span>
+        <input id="user" type="text" placeholder="usuário" autocomplete="username" />
+      </label>
+      <label class="field">
+        <span>Senha</span>
+        <input id="pass" type="password" placeholder="senha" autocomplete="current-password" />
+      </label>
+      <button class="btn primary" type="submit">Entrar</button>
+      <p id="loginError" class="hint error" hidden>Usuário ou senha inválidos.</p>
+    </form>
+  </section>
+
+  <!-- PAINEL -->
+  <section id="appView" class="app" hidden>
+    <header class="topbar">
+      <div>
+        <div class="brand small">RADBY SONDS</div>
+        <div id="fbStatus" class="brand-sub">Códigos de acesso</div>
+      </div>
+      <div class="top-actions">
+        <button id="logoutBtn" class="btn ghost" type="button">Sair</button>
+      </div>
+    </header>
+
+    <div class="stats">
+      <div class="stat"><span id="statTotal">0</span><small>total</small></div>
+      <div class="stat ok"><span id="statActive">0</span><small>ativos</small></div>
+      <div class="stat bad"><span id="statUsed">0</span><small>usados</small></div>
+    </div>
+
+    <div id="setupBanner" class="banner" hidden>
+      Firebase ainda não configurado. Preencha <b>firebase-config.js</b> para ativar o login e os códigos.
+    </div>
+
+    <div id="codeList" class="code-list"></div>
+    <div id="empty" class="empty" hidden>Nenhum código ainda. Use o botão flutuante para adicionar.</div>
+
+    <!-- FAB -->
+    <div id="fabRoot" class="fab-root">
+      <div class="fab-actions">
+        <button class="fab-action add" data-action="add" type="button">
+          <span class="fab-label">Adicionar</span>
+          <span class="fab-icon">+</span>
+        </button>
+        <button class="fab-action kill" data-action="kill" type="button">
+          <span class="fab-label">Matar</span>
+          <span class="fab-icon">×</span>
+        </button>
+        <button class="fab-action edit" data-action="edit" type="button">
+          <span class="fab-label">Editar</span>
+          <span class="fab-icon">✎</span>
+        </button>
+      </div>
+      <button id="fabMain" class="fab-main" type="button" aria-label="Ações">+</button>
+    </div>
+  </section>
+
+  <!-- MODAL -->
+  <div id="modal" class="modal" hidden>
+    <div class="modal-card">
+      <h3 id="modalTitle">Título</h3>
+      <p id="modalText" class="modal-text"></p>
+      <input id="modalInput" class="modal-input" type="text" inputmode="numeric" maxlength="6" hidden />
+      <div class="modal-actions">
+        <button id="modalCancel" class="btn ghost" type="button">Cancelar</button>
+        <button id="modalOk" class="btn primary" type="button">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

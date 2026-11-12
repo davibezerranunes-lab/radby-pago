@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /codes/{code} {
+      // O app pode consultar UM código pelo ID, mas não listar todos.
+      allow get: if true;
+      allow list: if request.auth != null;
+
+      // Admin autenticado pode criar, editar e apagar.
+      allow create, delete: if request.auth != null;
+      allow update: if request.auth != null
+        || (
+          // Uso único: só permite virar "usado" e só nesses campos.
+          resource.data.used == false
+          && request.resource.data.used == true
+          && request.resource.data.diff(resource.data)
+               .affectedKeys().hasOnly(['used', 'usedAt', 'usedBy'])
+        );
+    }
+  }
+}
